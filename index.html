@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dog API com Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+    }
+    img {
+      max-width: 300px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      background: #ff9800;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <h1>🐶 Dog API com Vue</h1>
+
+    <button @click="carregarDog">Buscar novo cachorro</button>
+
+    <div v-if="imagem">
+      <img :src="imagem" alt="Foto de cachorro">
+    </div>
+    <p v-else>Carregando...</p>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        imagem: null
+      },
+      mounted() {
+        this.carregarDog()
+      },
+      methods: {
+        async carregarDog() {
+          try {
+            const resposta = await fetch('https://dog.ceo/api/breeds/image/random')
+            const dados = await resposta.json()
+            this.imagem = dados.message
+          } catch (erro) {
+            console.error('Erro ao carregar a imagem:', erro)
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
